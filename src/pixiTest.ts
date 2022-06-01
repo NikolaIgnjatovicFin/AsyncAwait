@@ -1,6 +1,9 @@
 import * as PIXI from "pixi.js";
+import { AccessibilityManager } from "pixi.js";
 
 console.log("Jel ulazi?");
+
+var buttonClicked:boolean=false;
 
 const canvas = document.getElementById("gameCanvas") as HTMLCanvasElement;
 
@@ -23,11 +26,46 @@ app.loader.onComplete.add(DoneLoadingAssets);
 
 function DoneLoadingAssets() {
   img = PIXI.Sprite.from("/OctanePic.jpg");
+  img.interactive=true;
   img.x = app.screen.width / 2;
   img.y = app.screen.height / 2;
   img.anchor.x = 0.5;
   img.width = 300;
   img.height = 300;
+  img.on('click', async function(){
+    try{
+      await Delay(5000);
+      buttonClicked=false;
+      console.log("evo me");
+    }
+    catch(error){
+      console.log("Uhvacen error", error);
+    }
+    finally{
+      console.log("Izvrsava se finally");
+    }
+  }
+ )
+
+ function Delay(ms:number)
+{
+    return new Promise<void>((resolve,reject)=>
+    {
+      if(!buttonClicked)
+      {   
+        buttonClicked=true;
+        setTimeout(() => {
+          resolve();
+        }, ms);
+      }
+      else
+      {
+        reject(console.log("Button was already clicked"))
+      }
+      
+    })
+}
+
   app.stage.addChild(img);
   //app.resizeTo(window);
 }

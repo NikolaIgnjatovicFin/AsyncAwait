@@ -8,6 +8,9 @@
   },
   "dependencies": {
     "canvas-confetti": "^1.2.0",
+    "cors": "^2.8.5",
+    "install": "^0.13.0",
+    "npm": "^8.11.0",
     "pixi.js": "^6.3.2"
   },
   "devDependencies": {
