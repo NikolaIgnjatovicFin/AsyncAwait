@@ -8,7 +8,7 @@ var buttonClicked:boolean=false;
 const canvas = document.getElementById("gameCanvas") as HTMLCanvasElement;
 
 console.log(canvas);
-var img;
+var img: PIXI.Sprite;
 
 const app = new PIXI.Application({
   antialias: true,
@@ -20,23 +20,25 @@ const app = new PIXI.Application({
 document.body.appendChild(app.view);
 app.stage.interactive=true;
 
-app.loader.add("Slika", "/OctanePic.jpg");
+app.loader.add("ZelenoDugme", "GreenButton.png");
+app.loader.add("CrvenoDugme", "RedButton.png");
 app.loader.load();
 app.loader.onComplete.add(DoneLoadingAssets);
 
 function DoneLoadingAssets() {
-  img = PIXI.Sprite.from("/OctanePic.jpg");
+  img = PIXI.Sprite.from(app.loader.resources["ZelenoDugme"].texture!);
   img.interactive=true;
   img.x = app.screen.width / 2;
   img.y = app.screen.height / 2;
   img.anchor.x = 0.5;
   img.width = 300;
   img.height = 300;
+
   img.on('click', async function(){
     try{
       await Delay(5000);
+      img.texture = app.loader.resources["ZelenoDugme"].texture!;
       buttonClicked=false;
-      console.log("evo me");
     }
     catch(error){
       console.log("Uhvacen error", error);
@@ -54,6 +56,7 @@ function DoneLoadingAssets() {
       if(!buttonClicked)
       {   
         buttonClicked=true;
+        img.texture = app.loader.resources["CrvenoDugme"].texture!;
         setTimeout(() => {
           resolve();
         }, ms);
@@ -68,13 +71,22 @@ function DoneLoadingAssets() {
 
   app.stage.addChild(img);
   //app.resizeTo(window);
+  //app.ticker.add(GameLoop);
 }
 
 window.onresize = function () {
   app.resize();
 };
 
-// app.ticker.add(GameLoop);
-// function GameLoop() {
-
-// }
+function GameLoop() { //Menjam sliku spritea iz gameloopa cisto da oprobam gameLoop iako nije pozeljno bas ovde Ne moze preko game Loopa jer ne sme da se menja tako sprite
+  // if(buttonClicked==true)
+  // {
+  //   console.log("AAA");
+  //   img.texture = app.loader.resources["CrvenoDugme"].texture!;
+  // }
+  // else
+  // {
+  //   console.log("BBB");
+  //   img= PIXI.Sprite.from(app.loader.resources["ZelenoDugme"].texture!);
+  // }
+}
