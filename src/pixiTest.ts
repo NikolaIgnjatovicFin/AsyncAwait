@@ -4,6 +4,9 @@ import { AccessibilityManager } from "pixi.js";
 console.log("Jel ulazi?");
 
 var buttonClicked:boolean=false;
+var startText: PIXI.Text;
+
+startText = new PIXI.Text('Press Button to start Async Function',{fontFamily : 'Arial', fontSize: 24, fill : 0xff1010, align : 'left'});
 
 const canvas = document.getElementById("gameCanvas") as HTMLCanvasElement;
 
@@ -37,6 +40,7 @@ function DoneLoadingAssets() {
   img.on('click', async function(){
     try{
       await Delay(5000);
+      startText.text='Press Button to start Async Function';
       img.texture = app.loader.resources["ZelenoDugme"].texture!;
       buttonClicked=false;
     }
@@ -56,6 +60,7 @@ function DoneLoadingAssets() {
       if(!buttonClicked)
       {   
         buttonClicked=true;
+        startText.text='Wait 5 seconds till async executes';
         img.texture = app.loader.resources["CrvenoDugme"].texture!;
         setTimeout(() => {
           resolve();
@@ -70,6 +75,7 @@ function DoneLoadingAssets() {
 }
 
   app.stage.addChild(img);
+  app.stage.addChild(startText);
   //app.resizeTo(window);
   //app.ticker.add(GameLoop);
 }
